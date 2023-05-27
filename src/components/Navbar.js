@@ -36,15 +36,9 @@ const Navbar = () => {
             <span>Profile</span>
           </Link>
           <span className="write">
-            {!token ? (
-                     <div></div>     
-            ):(
-              <Link className="link" to="/write">
-                          Write
-                        </Link>
-            )
-          }
-
+            <Link className="link" to="/write">
+              Write
+            </Link>
           </span>
         </div>
       </div>

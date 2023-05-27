@@ -12,7 +12,10 @@ const Write = () => {
   const { token, setToken } = useContext(LoginContext);
 
   useEffect(() => {
-    
+    // pengecekan token
+    if(token === ""){
+      navigate("/login")
+    }else{
     axios
       .get("https://minpro-blog.purwadhikabootcamp.com/api/auth/", {
         headers: {
@@ -24,6 +27,7 @@ const Write = () => {
         setValue(response.data);
       })
       .catch((err) => console.log(err));
+    }
   }, [token]);
 
   const handleSubmit = (values, action) => {
