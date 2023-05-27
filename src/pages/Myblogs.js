@@ -10,11 +10,13 @@ import { LoginContext } from "../App";
 const Myblogs = () => {
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState([]);
+  const [likeData, setLikeData] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     console.log("Token: ", token);
 
+    // Get my blog
     axios
       .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog/pagUser`, {
         headers: {
@@ -26,29 +28,67 @@ const Myblogs = () => {
         setUserData(response.data.result);
       })
       .catch((err) => console.log(err));
+
+    // Get liked blog
+    axios
+      .get("https://minpro-blog.purwadhikabootcamp.com/api/blog/pagLike", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("WONG", response.data);
+        setLikeData(response.data.result);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
-    <div className="single">
-      {userData.map((post) => (
-        <div>
-          <div className="content">
-            <img
-              src={`https://minpro-blog.purwadhikabootcamp.com/${post.imageURL}`}
-              alt=""
-            />
+    <>
+      <div className="single">
+        {userData.map((post) => (
+          <div>
+            <div className="content">
+              <img
+                src={`https://minpro-blog.purwadhikabootcamp.com/${post.imageURL}`}
+                alt=""
+              />
 
-            <div className="info">
-              <h1>{post.title}</h1>
-              <h3>by: {post.User.username}</h3>
-              <p>{post.createdAt}</p>
+              <div className="info">
+                <h1>{post.title}</h1>
+                <h3>by: {post.User.username}</h3>
+                <p>{post.createdAt}</p>
+              </div>
             </div>
-          </div>
 
-          <p>{post.content}</p>
-        </div>
-      ))}
-    </div>
+            <p>{post.content}</p>
+          </div>
+        ))}
+      </div>
+      <div className="border-b-8 flex flex-col space-x-24  m-8 border-solid border-2 border-sky-500 rounded">
+        <h1 className="flex flex-col space-x-24 m-1 text-teal-500 text-2xl ... font-bold ...  ">
+          LIKED POST
+        </h1>
+        {likeData.map((likeData) => (
+          <div>
+            <h1 className=" border-b-4">
+              {likeData.Blog.title}
+              {/* <Likesbutton
+                blogID={userData.id}
+                totalLikes={userData.total_fav}
+                onClickLike={fetchData}
+              /> */}
+            </h1>
+
+            <Link className="link" to={`/${likeData.Blog.id}`}>
+              <button class="transition ease-in-out delay-150 bg- text-teal-500 hover:-translate-y-1 hover:scale-110 hover: bg-slate-200 duration-300 ...">
+                Read More
+              </button>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
