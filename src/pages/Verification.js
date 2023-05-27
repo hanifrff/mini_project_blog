@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -6,7 +6,12 @@ const Verification = () => {
   const { token } = useParams();
   const navigate = useNavigate();
 
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
+    // Save token ke local storage
+    localStorage.setItem("token", token);
+
     // Verify linking
     try {
       axios.patch(
@@ -18,21 +23,21 @@ const Verification = () => {
           },
         }
       );
+
+      // Set success screen
+      setIsVisible(true);
     } catch (error) {
       console.error(error);
       return;
     }
 
     // Use navigate disini
-
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 5000);
   }, []);
 
-  return (
-    <div>
-      We are currently verifying your registration, please wait for awhile!
-    </div>
-  );
+  return <div>"Verification successful!"</div>;
 };
 
 export default Verification;

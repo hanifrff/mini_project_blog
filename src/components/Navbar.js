@@ -1,33 +1,50 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "../img/cat.avif";
 import { Link } from "react-router-dom";
+import { LoginContext } from "../App";
 
 const Navbar = () => {
+  const { token, setToken } = useContext(LoginContext);
   return (
     <div className="navbar">
       <div className="container">
         <div className="logo">
           <img className="pict1" src={Logo} alt="" />
         </div>
-        <div className="links"> 
-          <Link className="link" to="/?cat=home">
-            <h6>HOME</h6>
+        <div className="links">
+          <Link className="link" to="/">
+            <h6>Home</h6>
           </Link>
-          <Link className="link" to="/?cat=science">
-            <h6>SCIENCE</h6>
+          <Link className="link" to="/myblogs">
+            <h6>My Blogs</h6>
           </Link>
-          <Link className="link" to="/?cat=technology">
-            <h6>TECHNOLOGY</h6>
-          </Link>
-          <Link className="link" to="/?cat=design">
-            <h6>DESIGN</h6>
-          </Link>
-          <span>Profile</span>
-          <span>Logout</span>
-          <span className="write">
-            <Link className="link" to="/write">
-              Write
+          {!token ? (
+            <Link className="link" to="/login">
+              <h6>Login</h6>
             </Link>
+          ) : (
+            <span
+              onClick={() => {
+                setToken("");
+                localStorage.removeItem("token");
+              }}
+            >
+              "logout"
+            </span>
+          )}
+          <Link className="link" to="/profile">
+            <span>Profile</span>
+          </Link>
+          <span className="write">
+            {!token ? (
+                     <div></div>     
+            ):(
+              <Link className="link" to="/write">
+                          Write
+                        </Link>
+            )
+          }
+
           </span>
         </div>
       </div>

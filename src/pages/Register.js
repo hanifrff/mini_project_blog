@@ -1,11 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-
 
 const CreateSchema = Yup.object().shape({
   password: Yup.string()
@@ -26,22 +23,24 @@ const CreateSchema = Yup.object().shape({
 });
 
 const Register = () => {
-
   const navigate = useNavigate();
-   
+
   const handleSubmit = (values, action) => {
     console.log(values);
 
     try {
-      axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth/", values)
-    } catch(error) {
-      console.error(error)
-      return
+      axios.post(
+        "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+        values
+      );
+    } catch (error) {
+      console.error(error);
+      return;
     }
-    
+
     // 1. Call axios untuk register
     // 2. Redirect ke halaman verify
-    navigate('/verify')
+    navigate("/verify");
   };
 
   return (
