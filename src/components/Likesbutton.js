@@ -35,6 +35,12 @@ const Likesbutton = ({ blogID, totalLikes, onClickLike }) => {
   // }, [dataLikes]);
 
   const handleClick = (tesblogId) => {
+    if (token === "") {
+      window.alert('You need to login first to like this blog!')
+      navigate("/login");
+      return;
+    }
+
     axios
       .post(
         "https://minpro-blog.purwadhikabootcamp.com/api/blog/like",
@@ -48,10 +54,7 @@ const Likesbutton = ({ blogID, totalLikes, onClickLike }) => {
       .then((response) => {
         onClickLike();
       })
-
-      .catch((err) => console.log(err));
-
-    navigate("/login");
+      .catch((err) => {});
   };
 
   return (

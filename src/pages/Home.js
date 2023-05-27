@@ -128,6 +128,7 @@ const Home = () => {
               <h3>{userData.content}</h3>
               <p>Category: {userData.Category.name}</p>
               <p>by: {userData.User.username}</p>
+              <p>by: {userData.createdAt}</p>
               <Link className="link" to={`/${userData.id}`}>
                 <button>Read More</button>
               </Link>
