@@ -6,24 +6,24 @@ import Menu from "../components/Categories";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { LoginContext } from "../App";
- 
-
-
 
 const Myblogs = () => {
-  const { token, setToken } = useContext(LoginContext);
+  const token = localStorage.getItem("token");
   const [userData, setUserData] = useState([]);
   const { id } = useParams();
 
-
   useEffect(() => {
+    console.log("Token: ", token);
+
     axios
-      .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog/${id}`,
-      
-      )
+      .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog/pagUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log("WING", response);
-        setUserData(response.data);
+        console.log("WING", response.data);
+        setUserData(response.data.result);
       })
       .catch((err) => console.log(err));
   }, []);
