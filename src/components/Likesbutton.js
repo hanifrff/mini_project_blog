@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../App";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useNavigate } from "react-router-dom";
 
 const Likesbutton = ({blogID, totalLikes, onClickLike}) => {
     const { token, setToken } = useContext(LoginContext);
     const [dataUser, setDataUser] = useState({});
     const [dataLikes, setDataLikes] = useState("");
     const [dataFav, setDataFav] = useState([]);
+    const navigate = useNavigate()
     
   
 //   useEffect(() => {
@@ -34,6 +36,8 @@ const Likesbutton = ({blogID, totalLikes, onClickLike}) => {
     // }, [dataLikes]);
     
     const handleClick = (tesblogId) => {
+
+
         axios
         .post(
             "https://minpro-blog.purwadhikabootcamp.com/api/blog/like",
@@ -50,6 +54,8 @@ const Likesbutton = ({blogID, totalLikes, onClickLike}) => {
       })
 
       .catch((err) => console.log(err));
+
+      navigate("/login")
   };
 
   return (

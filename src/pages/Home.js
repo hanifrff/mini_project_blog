@@ -11,7 +11,6 @@ import BlogPreview from "../components/Searchblogprev";
 import SearchBar2 from "../components/searchbar2";
 
 const Home = () => {
-
   // Home
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,30 +65,20 @@ const Home = () => {
   const handleCategoryChange = (event) => {
     // console.log(event.target.value);
     setCategory(event.target.value);
-    // search(term, event.target.value);
+    search(term, event.target.value);
   };
 
   const search = (term, category) => {
-    console.log('Term: ' + term)
-    // let resultItems = items;
-    // if (term) {
-    //   resultItems = resultItems.filter((item) =>
-    //     item.name.toLowerCase().includes(term.toLowerCase())
-    //   );
-    // }
-    // if (category !== "all") {
-    //   resultItems = resultItems.filter((item) => item.category === category);
-    // }
-    // setResults(resultItems);
+    console.log("Term: " + term);
 
     axios
-      .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog?search=${term}`)
+      .get(
+        `https://minpro-blog.purwadhikabootcamp.com/api/blog?search=${term}&id_cat=${category}`
+      )
       .then((response) => {
-
         setUserData(response.data.result);
       })
       .catch((err) => console.log(err));
-    
   };
 
   return (
@@ -107,14 +96,18 @@ const Home = () => {
             type="text"
             placeholder="Search"
             onChange={handleSearchChange}
+            
           ></input>
 
           <select value={category} onChange={handleCategoryChange}>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
+            <option value="">All</option>
+            <option value={1}>Bisnis</option>
+            <option value={2}>Ekonomi</option>
+            <option  value={3}>Teknologi</option>
+            <option  value={4}>Olahraga</option>
+            <option  value={5}>Kuliner</option>
+            <option  value={6}>Internasional</option>
+            <option  value={7}>Fiksi</option>
           </select>
         </form>
       </div>

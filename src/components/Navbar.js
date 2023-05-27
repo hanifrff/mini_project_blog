@@ -29,7 +29,7 @@ const Navbar = () => {
                 localStorage.removeItem("token");
               }}
             >
-              "logout"
+              Logout
             </span>
           )}
           <Link className="link" to="/profile">
