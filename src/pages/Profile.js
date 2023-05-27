@@ -1,16 +1,49 @@
 import React, { useContext, useEffect, useState } from "react";
-import Edit from "../img/edit.png";
-import Delete from "../img/delete.png";
-import { Link } from "react-router-dom";
-import Menu from "../components/Categories";
 import axios from "axios";
 import { Avatar } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 import { LoginContext } from "../App";
 
 const Profile = () => {
   const [dataUser, setDataUser] = useState({});
   const { token, setToken } = useContext(LoginContext);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/changepassword")
+  }
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+  }
+
+  const handleImageUpload = (event, action) => {
+    event.preventDefault();
+    console.log('1')
+    const data = new FormData();
+    data.append("file", selectedImage);
+
+    axios
+      .post(
+        "https://minpro-blog.purwadhikabootcamp.com/api/profile/single-uploaded",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        window.location.reload();
+      })
+      .catch((error) => {});
+  };
+
   // pakai use state untuk mengeSTORE data user yang didapatkan dari API
   useEffect(() => {
     // 1. lo ngambil token dari local storage
@@ -56,13 +89,51 @@ const Profile = () => {
     //     </div>
     <div>
       <div className="flex flex-wrap gap-2">
-        <Avatar img={dataUser.imgProfile} rounded={true} />
+        <Avatar
+          img={`https://minpro-blog.purwadhikabootcamp.com/${dataUser.imgProfile}`}
+          rounded={true}
+        />
+        
+        <input type="file" onChange={handleImageChange}></input>
+        <button
+          type="button"
+          onClick={handleImageUpload}
+          class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+        >
+          Change Profile Picture
+        </button>
       </div>
       <h3>My Profile</h3>
       <p>Username: {dataUser.username}</p>
+      <button
+        type="button"
+        class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+      >
+        Edit
+      </button>
       <p>Email: {dataUser.email}</p>
+      <button
+        type="button"
+        class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+      >
+        Edit
+      </button>
       <p>Phone: {dataUser.phone}</p>
-      
+      <button
+        type="button"
+        class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+      >
+        Edit
+      </button>
+      <p>Password</p>
+      <button 
+        type="button"
+        onClick={handleRedirect}
+        class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+      >
+        Edit
+      </button>
+
       <div />
 
       {/* <Menu /> */}

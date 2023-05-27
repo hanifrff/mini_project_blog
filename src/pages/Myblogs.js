@@ -6,42 +6,64 @@ import Menu from "../components/Categories";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { LoginContext } from "../App";
+import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Myblogs = () => {
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState([]);
   const [likeData, setLikeData] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Token: ", token);
+    if (token === null) {
+      navigate("/login");
+    } else {
+      console.log(token);
+      // Get my blog
+      axios
+        .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog/pagUser`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("WING", response.data);
+          setUserData(response.data.result);
+        })
+        .catch((err) => console.log(err));
 
-    // Get my blog
-    axios
-      .get(`https://minpro-blog.purwadhikabootcamp.com/api/blog/pagUser`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("WING", response.data);
-        setUserData(response.data.result);
-      })
-      .catch((err) => console.log(err));
-
-    // Get liked blog
-    axios
-      .get("https://minpro-blog.purwadhikabootcamp.com/api/blog/pagLike", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("WONG", response.data);
-        setLikeData(response.data.result);
-      })
-      .catch((err) => console.log(err));
+      // Get liked blog
+      axios
+        .get("https://minpro-blog.purwadhikabootcamp.com/api/blog/pagLike", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("WONG", response.data);
+          setLikeData(response.data.result);
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
+
+  const handleClick = (blogId) => {
+    axios
+      .patch(
+        `https://minpro-blog.purwadhikabootcamp.com/api/blog/remove/${blogId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        navigate("/myblogs");
+      });
+  };
 
   return (
     <>
@@ -60,8 +82,14 @@ const Myblogs = () => {
                 <p>{post.createdAt}</p>
               </div>
             </div>
-
             <p>{post.content}</p>
+            <button
+              type="button"
+              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+              onClick={() => handleClick(post.id)}
+            >
+              DELETE
+            </button>
           </div>
         ))}
       </div>

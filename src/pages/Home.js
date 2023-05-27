@@ -18,17 +18,10 @@ const Home = () => {
 
   // Search
   const [term, setTerm] = useState("");
-  const [category, setCategory] = useState("all");
-  const categories = [
-    "all",
-    "Bisnis",
-    "Ekonomi",
-    "Teknologi",
-    "Olahraga",
-    "Kuliner",
-    "Internasional",
-    "Fiksi",
-  ]; // Define your categories here
+  const [category, setCategory] = useState("");
+
+  // Sort
+  const [sortValue, setSortValue] = useState("");
 
   useEffect(() => {
     axios
@@ -42,6 +35,12 @@ const Home = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleSortChange = (event) => {
+    const sortValue = event.target.value;
+
+
+  }
 
   const handlePage = (page) => {
     setCurrentPage(page);
@@ -96,18 +95,22 @@ const Home = () => {
             type="text"
             placeholder="Search"
             onChange={handleSearchChange}
-            
           ></input>
 
           <select value={category} onChange={handleCategoryChange}>
-            <option value="">All</option>
+            <option value={""}>All</option>
             <option value={1}>Bisnis</option>
             <option value={2}>Ekonomi</option>
-            <option  value={3}>Teknologi</option>
-            <option  value={4}>Olahraga</option>
-            <option  value={5}>Kuliner</option>
-            <option  value={6}>Internasional</option>
-            <option  value={7}>Fiksi</option>
+            <option value={3}>Teknologi</option>
+            <option value={4}>Olahraga</option>
+            <option value={5}>Kuliner</option>
+            <option value={6}>Internasional</option>
+            <option value={7}>Fiksi</option>
+          </select>
+
+          <select onChange={handleSortChange}>
+            <option value={"ASC"}>ASC</option>
+            <option value={"DESC"}>DESC</option>
           </select>
         </form>
       </div>
