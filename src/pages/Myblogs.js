@@ -50,6 +50,11 @@ const Myblogs = () => {
   }, []);
 
   const handleClick = (blogId) => {
+    const confirmed = window.confirm(`Are you sure you want to delete?`);
+    if (!confirmed) {
+      return
+    }
+
     axios
       .patch(
         `https://minpro-blog.purwadhikabootcamp.com/api/blog/remove/${blogId}`,

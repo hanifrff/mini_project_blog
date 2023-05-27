@@ -21,7 +21,7 @@ const Home = () => {
   const [category, setCategory] = useState("");
 
   // Sort
-  const [sortValue, setSortValue] = useState("");
+  const [sortValue, setSortValue] = useState("DESC");
 
   useEffect(() => {
     axios
@@ -37,9 +37,9 @@ const Home = () => {
   }, []);
 
   const handleSortChange = (event) => {
-    const sortValue = event.target.value;
-
-
+    const newSortValue = event.target.value
+    setSortValue(newSortValue);
+    search(term, category, newSortValue)
   }
 
   const handlePage = (page) => {
@@ -58,21 +58,21 @@ const Home = () => {
 
   const handleSearchChange = (event) => {
     setTerm(event.target.value);
-    search(event.target.value, category);
+    search(event.target.value, category, sortValue);
   };
 
   const handleCategoryChange = (event) => {
     // console.log(event.target.value);
     setCategory(event.target.value);
-    search(term, event.target.value);
+    search(term, event.target.value, sortValue);
   };
 
-  const search = (term, category) => {
+  const search = (term, category, sortValue) => {
     console.log("Term: " + term);
 
     axios
       .get(
-        `https://minpro-blog.purwadhikabootcamp.com/api/blog?search=${term}&id_cat=${category}`
+        `https://minpro-blog.purwadhikabootcamp.com/api/blog?search=${term}&id_cat=${category}&sort=${sortValue}`
       )
       .then((response) => {
         setUserData(response.data.result);
@@ -108,7 +108,7 @@ const Home = () => {
             <option value={7}>Fiksi</option>
           </select>
 
-          <select onChange={handleSortChange}>
+          <select value={sortValue} onChange={handleSortChange}>
             <option value={"ASC"}>ASC</option>
             <option value={"DESC"}>DESC</option>
           </select>
