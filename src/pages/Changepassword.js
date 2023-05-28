@@ -4,6 +4,8 @@ import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { LoginContext } from "../App";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const CreateSchema = Yup.object().shape({
   currentPassword: Yup.string().required("Required"),
@@ -38,7 +40,7 @@ const Changepassword = () => {
   }, [token]);
 
   const handleSubmit = (values, action) => {
-    console.log("asdasd", values);
+    window.alert("Are you sure want to change password?");
 
     try {
       axios
@@ -62,6 +64,8 @@ const Changepassword = () => {
     navigate("/profile");
   };
 
+  const [visible, setVisible] = useState(false);
+
   return (
     <div className="auth">
       <h1>Change Password</h1>
@@ -78,30 +82,39 @@ const Changepassword = () => {
           <form onSubmit={props.handleSubmit}>
             <input
               required
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="current password"
               name="currentPassword"
               onChange={props.handleChange}
               value={props.values.currentPassword}
             />
+            <div onClick={() => setVisible(!visible)}>
+              {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </div>
             <ErrorMessage name="currentpassword" component="div" />
             <input
               required
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="new password"
               name="password"
               onChange={props.handleChange}
               value={props.values.password}
             />
+            <div onClick={() => setVisible(!visible)}>
+              {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </div>
             <ErrorMessage name="password" component="div" />
             <input
               required
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="confirm password"
               name="confirmPassword"
               onChange={props.handleChange}
               value={props.values.confirmPassword}
             />
+            <div onClick={() => setVisible(!visible)}>
+              {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </div>
             <ErrorMessage name="confirmPassword" component="div" />
             <button type="submit">Submit</button>
           </form>

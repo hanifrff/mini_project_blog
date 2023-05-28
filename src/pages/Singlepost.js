@@ -17,6 +17,11 @@ const Single = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleString("en-US", options);
+  };
+
   return (
     <div className="single">
       {userData.map((post) => (
@@ -30,7 +35,7 @@ const Single = () => {
             <div className="info">
               <h1>{post.title}</h1>
               <h3>by: {post.User.username}</h3>
-              <p>{post.createdAt}</p>
+              <p>CreatedAt: {formatDate(post.createdAt)}</p>
             </div>
           </div>
 

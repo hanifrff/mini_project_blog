@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+
 
 const CreateSchema = Yup.object().shape({
   password: Yup.string()
@@ -43,11 +47,13 @@ const Register = () => {
     navigate("/verify");
   };
 
+  const [visible, setVisible] = useState(false)
+
   return (
     <div className="auth">
       <h1>Register</h1>
 
-      <Formik
+      <Formik 
         initialValues={{
           username: "",
           email: "",
@@ -61,7 +67,7 @@ const Register = () => {
       >
         {(props) => (
           <form onSubmit={props.handleSubmit}>
-            <input
+            <input 
               type="text"
               placeholder="username"
               name="username"
@@ -87,12 +93,13 @@ const Register = () => {
             />
             <input
               required
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="password"
               name="password"
               onChange={props.handleChange}
               value={props.values.password}
             />
+            <div onClick={() => setVisible(!visible)}>{visible ? <VisibilityIcon/> : <VisibilityOffIcon/> }</div>
             <ErrorMessage name="password" component="div" />
             <input
               required
@@ -102,11 +109,12 @@ const Register = () => {
               onChange={props.handleChange}
               value={props.values.confirmPassword}
             />
+            <div onClick={() => setVisible(!visible)}>{visible ? <VisibilityIcon/> : <VisibilityOffIcon/> }</div>
             <ErrorMessage name="confirmPassword" component="div" />
             <button type="submit">Register</button>
             {/* <p>This is an error!</p> */}
             <span>
-              Do you have an account? <Link to="/login">Login</Link>
+              Do you have an account? <Link className="underline underline-offset-1" to="/login">Login</Link>
             </span>
           </form>
         )}

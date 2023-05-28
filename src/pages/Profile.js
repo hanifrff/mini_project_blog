@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Avatar } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-
 import { LoginContext } from "../App";
+
 
 const Profile = () => {
   const [dataUser, setDataUser] = useState({});
@@ -27,6 +27,7 @@ const Profile = () => {
     console.log('1')
     const data = new FormData();
     data.append("file", selectedImage);
+    
 
     axios
       .post(
@@ -90,8 +91,9 @@ const Profile = () => {
     <div>
       <div className="flex flex-wrap gap-2">
         <Avatar
-          img={`https://minpro-blog.purwadhikabootcamp.com/${dataUser.imgProfile}`}
+          img ={`https://minpro-blog.purwadhikabootcamp.com/${dataUser.imgProfile}`}
           rounded={true}
+          
         />
         
         <input type="file" onChange={handleImageChange}></input>

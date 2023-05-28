@@ -18,6 +18,7 @@ const Myblogs = () => {
 
   useEffect(() => {
     if (token === null) {
+      window.alert("You need to login first to see your blog!");
       navigate("/login");
     } else {
       console.log(token);
@@ -52,7 +53,7 @@ const Myblogs = () => {
   const handleClick = (blogId) => {
     const confirmed = window.confirm(`Are you sure you want to delete?`);
     if (!confirmed) {
-      return
+      return;
     }
 
     axios
@@ -69,6 +70,10 @@ const Myblogs = () => {
         navigate("/myblogs");
       });
   };
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleString("en-US", options);
+  };
 
   return (
     <>
@@ -84,10 +89,10 @@ const Myblogs = () => {
               <div className="info">
                 <h1>{post.title}</h1>
                 <h3>by: {post.User.username}</h3>
-                <p>{post.createdAt}</p>
               </div>
             </div>
             <p>{post.content}</p>
+            <p>{formatDate(post.createdAt)}</p>
             <button
               type="button"
               class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"

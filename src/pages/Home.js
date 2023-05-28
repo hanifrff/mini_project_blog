@@ -80,6 +80,12 @@ const Home = () => {
       .catch((err) => console.log(err));
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleString("en-US", options);
+  };
+  
+
   return (
     <div className="home">
       <Carousels />
@@ -128,7 +134,7 @@ const Home = () => {
               <h3>{userData.content}</h3>
               <p>Category: {userData.Category.name}</p>
               <p>by: {userData.User.username}</p>
-              <p>by: {userData.createdAt}</p>
+              <p>CreatedAt: {formatDate(userData.createdAt)}</p>
               <Link className="link" to={`/${userData.id}`}>
                 <button>Read More</button>
               </Link>

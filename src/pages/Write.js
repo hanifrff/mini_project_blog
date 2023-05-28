@@ -1,8 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useState, useEffect, useContext, useRef } from "react";
-import ReactQuill from "react-quill";
+
 import axios from "axios";
-import "react-quill/dist/quill.snow.css";
+
 import { LoginContext } from "../App";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -14,6 +14,7 @@ const Write = () => {
   useEffect(() => {
     // pengecekan token
     if(token === ""){
+      window.alert('You need to login first to create a blog!')
       navigate("/login")
     }else{
     axios
@@ -45,7 +46,7 @@ const Write = () => {
       .then((response) => {
         console.log(response);
         setValue(response.data);
-        navigate("/myblogs");
+        // navigate("/myblogs");
       })
       .catch((err) => console.log(err));
   };

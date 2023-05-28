@@ -25,6 +25,7 @@ const Navbar = () => {
           ) : (
             <span
               onClick={() => {
+                window.alert("Are you sure want to LOGOUT?")
                 setToken("");
                 localStorage.removeItem("token");
               }}
