@@ -103,7 +103,7 @@ const Register = () => {
             <ErrorMessage name="password" component="div" />
             <input
               required
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="confirm password"
               name="confirmPassword"
               onChange={props.handleChange}

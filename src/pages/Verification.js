@@ -37,7 +37,7 @@ const Verification = () => {
     }, 5000);
   }, []);
 
-  return <div>"Verification successful!"</div>;
+  return <div>"Verification successful! Please wait 5 sec..."</div>;
 };
 
 export default Verification;

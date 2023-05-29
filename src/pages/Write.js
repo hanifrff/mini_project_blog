@@ -46,7 +46,7 @@ const Write = () => {
       .then((response) => {
         console.log(response);
         setValue(response.data);
-        // navigate("/myblogs");
+        navigate("/myblogs");
       })
       .catch((err) => console.log(err));
   };
@@ -201,7 +201,7 @@ const Write = () => {
               <form />
             </div>
           </div>
-          {JSON.stringify(props.values)}
+          {/* {JSON.stringify(props.values)} */}
         </form>
       )}
     </Formik>
